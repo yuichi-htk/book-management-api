@@ -3,6 +3,7 @@ package com.example.book_management_api.repository
 import com.example.bookmanagementapi.generated.tables.records.AuthorsRecord
 import com.example.bookmanagementapi.generated.tables.references.AUTHORS
 import org.jooq.DSLContext
+import org.jooq.impl.DSL.selectOne
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -32,4 +33,11 @@ class AuthorRepository(
         dsl.selectFrom(AUTHORS)
             .where(AUTHORS.ID.`in`(ids))
             .fetch()
+
+    fun existsById(id: Long): Boolean =
+        dsl.fetchExists(
+            selectOne()
+                .from(AUTHORS)
+                .where(AUTHORS.ID.eq(id)),
+        )
 }

@@ -1,15 +1,21 @@
 package com.example.book_management_api.service
 
+import com.example.book_management_api.dto.AuthorBooksResponse
 import com.example.book_management_api.dto.AuthorRequest
 import com.example.book_management_api.dto.AuthorResponse
+import com.example.book_management_api.dto.BookSummaryResponse
 import com.example.book_management_api.exception.ResourceNotFoundException
+import com.example.book_management_api.model.PublicationStatus
 import com.example.book_management_api.repository.AuthorRepository
+import com.example.book_management_api.repository.BookRepository
+import com.example.bookmanagementapi.generated.tables.records.BooksRecord
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthorService(
     private val authorRepository: AuthorRepository,
+    private val bookRepository: BookRepository,
 ) {
     @Transactional
     fun createAuthor(request: AuthorRequest): AuthorResponse {
@@ -31,6 +37,18 @@ class AuthorService(
 
         return record.toResponse()
     }
+
+    @Transactional(readOnly = true)
+    fun getBooksByAuthor(authorId: Long): AuthorBooksResponse {
+        if (!authorRepository.existsById(authorId)) {
+            throw ResourceNotFoundException("Author not found.")
+        }
+
+        return AuthorBooksResponse(
+            authorId = authorId,
+            books = bookRepository.findBooksByAuthorId(authorId).map { it.toSummaryResponse() },
+        )
+    }
 }
 
 private fun com.example.bookmanagementapi.generated.tables.records.AuthorsRecord.toResponse(): AuthorResponse =
@@ -38,4 +56,12 @@ private fun com.example.bookmanagementapi.generated.tables.records.AuthorsRecord
         id = requireNotNull(id),
         name = requireNotNull(name),
         birthDate = requireNotNull(birthDate),
+    )
+
+private fun BooksRecord.toSummaryResponse(): BookSummaryResponse =
+    BookSummaryResponse(
+        id = requireNotNull(id),
+        title = requireNotNull(title),
+        price = requireNotNull(price),
+        publicationStatus = PublicationStatus.valueOf(requireNotNull(publicationStatus)),
     )
