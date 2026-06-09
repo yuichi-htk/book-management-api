@@ -33,6 +33,17 @@ class BookRepository(
         dsl.batch(queries).execute()
     }
 
+    fun replaceAuthors(bookId: Long, authorIds: List<Long>) {
+        deleteBookAuthors(bookId)
+        insertBookAuthors(bookId = bookId, authorIds = authorIds)
+    }
+
+    fun deleteBookAuthors(bookId: Long) {
+        dsl.deleteFrom(BOOK_AUTHORS)
+            .where(BOOK_AUTHORS.BOOK_ID.eq(bookId))
+            .execute()
+    }
+
     fun updateBook(id: Long, title: String, price: Int, publicationStatus: PublicationStatus): BooksRecord? =
         dsl.update(BOOKS)
             .set(BOOKS.TITLE, title)
