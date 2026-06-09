@@ -82,6 +82,36 @@ build/generated-src/jooq/main
 | PUT    | `/books/{bookId}`         | 書籍更新       |
 | GET    | `/authors/{authorId}/books` | 著者に紐づく書籍一覧取得 |
 
+Base URL:
+
+```text
+http://localhost:8080
+```
+
+## API Example
+
+著者を登録します。
+
+```bash
+curl -X POST http://localhost:8080/authors \
+  -H "Content-Type: application/json" \
+  -d '{"name":"山田太郎","birthDate":"1990-01-01"}'
+```
+
+登録した著者の `id` を指定して、書籍を登録します。
+
+```bash
+curl -X POST http://localhost:8080/books \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Kotlin入門","price":3000,"authorIds":[1],"publicationStatus":"UNPUBLISHED"}'
+```
+
+著者に紐づく書籍を取得します。
+
+```bash
+curl http://localhost:8080/authors/1/books
+```
+
 ## 実装補足
 
 - 更新APIは `PUT` を使用し、部分更新ではなく全項目更新として実装しています。
