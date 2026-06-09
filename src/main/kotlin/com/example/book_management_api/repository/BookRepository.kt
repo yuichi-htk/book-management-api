@@ -23,6 +23,16 @@ class BookRepository(
             .fetchOne()
             ?: throw IllegalStateException("Failed to insert book.")
 
+    fun insertBookAuthors(bookId: Long, authorIds: List<Long>) {
+        val queries = authorIds.map { authorId ->
+            dsl.insertInto(BOOK_AUTHORS)
+                .set(BOOK_AUTHORS.BOOK_ID, bookId)
+                .set(BOOK_AUTHORS.AUTHOR_ID, authorId)
+        }
+
+        dsl.batch(queries).execute()
+    }
+
     fun updateBook(id: Long, title: String, price: Int, publicationStatus: PublicationStatus): BooksRecord? =
         dsl.update(BOOKS)
             .set(BOOKS.TITLE, title)

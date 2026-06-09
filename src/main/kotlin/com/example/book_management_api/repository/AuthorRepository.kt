@@ -27,4 +27,9 @@ class AuthorRepository(
             .where(AUTHORS.ID.eq(id))
             .returning(AUTHORS.ID, AUTHORS.NAME, AUTHORS.BIRTH_DATE)
             .fetchOne()
+
+    fun findByIds(ids: Collection<Long>): List<AuthorsRecord> =
+        dsl.selectFrom(AUTHORS)
+            .where(AUTHORS.ID.`in`(ids))
+            .fetch()
 }
