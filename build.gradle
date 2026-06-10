@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.flywaydb:flyway-database-postgresql'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	runtimeOnly 'org.postgresql:postgresql'
-	jooqCodegen 'org.postgresql:postgresql'
+	jooqCodegen 'org.jooq:jooq-meta-extensions:3.19.35'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -64,20 +64,25 @@ flyway {
 
 jooq {
 	configuration {
-		jdbc {
-			driver = 'org.postgresql.Driver'
-			url = System.getenv('DB_URL') ?: 'jdbc:postgresql://localhost:5432/book_management'
-			user = System.getenv('DB_USER') ?: 'app'
-			password = System.getenv('DB_PASSWORD') ?: 'password'
-		}
-
 		generator {
 			name = 'org.jooq.codegen.KotlinGenerator'
 
 			database {
-				name = 'org.jooq.meta.postgres.PostgresDatabase'
-				inputSchema = 'public'
-				excludes = 'flyway_schema_history'
+				name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+				properties {
+					property {
+						key = 'scripts'
+						value = 'src/main/resources/db/migration/*.sql'
+					}
+					property {
+						key = 'sort'
+						value = 'semantic'
+					}
+					property {
+						key = 'defaultNameCase'
+						value = 'lower'
+					}
+				}
 			}
 
 			generate {
@@ -101,10 +106,6 @@ sourceSets {
 			srcDir 'build/generated-src/jooq/main'
 		}
 	}
-}
-
-tasks.named('jooqCodegen') {
-	dependsOn tasks.named('flywayMigrate')
 }
 
 tasks.named('compileKotlin') {

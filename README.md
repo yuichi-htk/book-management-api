@@ -32,8 +32,12 @@ PostgreSQL は以下の設定で起動します。
 
 ## Flyway
 
-アプリケーションのビルド時に Gradle の `flywayMigrate` タスクで migration が実行されます。  
-これにより、jOOQ code generation 前に PostgreSQL 上へ schema が作成されます。
+アプリケーション起動時に Flyway migration が実行され、PostgreSQL 上へ schema が作成されます。  
+手動で migration を実行する場合は、PostgreSQL 起動後に以下を実行します。
+
+```bash
+./gradlew flywayMigrate
+```
 
 migration ファイル:
 
@@ -43,7 +47,8 @@ src/main/resources/db/migration/V1__create_tables.sql
 
 ## jOOQ code generation
 
-PostgreSQL 起動後に以下を実行すると、事前に Flyway migration が実行されてから jOOQ のコードが生成されます。
+以下を実行すると、migration SQL から jOOQ のコードが生成されます。  
+PostgreSQL の起動は不要です。
 
 ```bash
 ./gradlew jooqCodegen
@@ -69,11 +74,10 @@ docker compose up -d
 ./gradlew bootRun
 ```
 
-`bootRun` 実行時は、以下の順序で Gradle タスクが実行されます。
+`bootRun` 実行時は、以下の順序で Gradle タスクが実行されます。  
+schema migration はアプリケーション起動時に Spring Boot / Flyway により実行されます。
 
 ```text
-flywayMigrate
-  ↓
 jooqCodegen
   ↓
 compileKotlin
