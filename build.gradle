@@ -5,7 +5,7 @@ plugins {
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
 	id 'org.springframework.boot' version '3.5.14'
 	id 'io.spring.dependency-management' version '1.1.7'
-	id 'org.jooq.jooq-codegen-gradle' version '3.19.24'
+	id 'org.jooq.jooq-codegen-gradle' version '3.19.35'
 }
 
 group = 'com.example'
