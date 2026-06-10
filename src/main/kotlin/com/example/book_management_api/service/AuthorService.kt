@@ -8,7 +8,7 @@ import com.example.book_management_api.exception.ResourceNotFoundException
 import com.example.book_management_api.model.PublicationStatus
 import com.example.book_management_api.repository.AuthorRepository
 import com.example.book_management_api.repository.BookRepository
-import com.example.bookmanagementapi.generated.tables.records.BooksRecord
+import com.example.book_management_api.generated.tables.records.BooksRecord
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -51,7 +51,7 @@ class AuthorService(
     }
 }
 
-private fun com.example.bookmanagementapi.generated.tables.records.AuthorsRecord.toResponse(): AuthorResponse =
+private fun com.example.book_management_api.generated.tables.records.AuthorsRecord.toResponse(): AuthorResponse =
     AuthorResponse(
         id = requireNotNull(id),
         name = requireNotNull(name),

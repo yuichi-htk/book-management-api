@@ -1,9 +1,9 @@
 package com.example.book_management_api.repository
 
 import com.example.book_management_api.model.PublicationStatus
-import com.example.bookmanagementapi.generated.tables.records.BooksRecord
-import com.example.bookmanagementapi.generated.tables.references.BOOKS
-import com.example.bookmanagementapi.generated.tables.references.BOOK_AUTHORS
+import com.example.book_management_api.generated.tables.records.BooksRecord
+import com.example.book_management_api.generated.tables.references.BOOKS
+import com.example.book_management_api.generated.tables.references.BOOK_AUTHORS
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.exists
 import org.jooq.impl.DSL.selectOne

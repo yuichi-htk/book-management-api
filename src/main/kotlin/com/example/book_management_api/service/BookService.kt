@@ -9,8 +9,8 @@ import com.example.book_management_api.exception.ResourceNotFoundException
 import com.example.book_management_api.model.PublicationStatus
 import com.example.book_management_api.repository.AuthorRepository
 import com.example.book_management_api.repository.BookRepository
-import com.example.bookmanagementapi.generated.tables.records.AuthorsRecord
-import com.example.bookmanagementapi.generated.tables.records.BooksRecord
+import com.example.book_management_api.generated.tables.records.AuthorsRecord
+import com.example.book_management_api.generated.tables.records.BooksRecord
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

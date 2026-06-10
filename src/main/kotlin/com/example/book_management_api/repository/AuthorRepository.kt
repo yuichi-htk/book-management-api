@@ -1,7 +1,7 @@
 package com.example.book_management_api.repository
 
-import com.example.bookmanagementapi.generated.tables.records.AuthorsRecord
-import com.example.bookmanagementapi.generated.tables.references.AUTHORS
+import com.example.book_management_api.generated.tables.records.AuthorsRecord
+import com.example.book_management_api.generated.tables.references.AUTHORS
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.selectOne
 import org.springframework.stereotype.Repository
